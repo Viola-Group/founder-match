@@ -59,18 +59,18 @@ const FOUNDERS = [
   },
   {
     name: "Noa",
-    age: 27,
-    title: "Idealist, Pre-Seed",
+    age: 36,
+    title: "Already Closed 4 Uncapped SAFEs",
     gradient: "linear-gradient(160deg,#2bd9a6,#0f4d3c)",
     photo: PHOTO_NOA,
     verified: false,
     distance: "1 km away",
     location: "Sarona Market",
-    bio: "Wants to change the world. Currently changing the deck. Weekly.",
-    unit: "Non-combat, incredible LinkedIn headline anyway",
+    bio: "Former cyber intelligence operative. Did things that will keep you up at night.",
+    unit: "Doesn't talk about it",
     techSign: "Sun in stealth mode",
     anthem: "\u201cPivot or Die Trying\u201d",
-    lookingFor: ["Technical co-founder", "Someone to split equity 50/50 (negotiable)"],
+    lookingFor: ["Product co-founder with the same intensity level"],
     avatar: { gender: "f", skin: "#ffdbac", hair: "bun", hairColor: "#4a3222", outfit: "tee", shirtColor: "#e7ded0", accessory: "none" },
   },
   {
@@ -264,7 +264,7 @@ const VCS = [
     distance: "2 km away",
     location: "Sarona Market, expensing a coffee",
     bio: "Promises 'so much more than capital.' Delivers one LinkedIn intro to his cousin in logistics.",
-    unit: "Ex-8200, now explains blitzscaling unprompted at dinner",
+    unit: "Made Aliyah straight out of Cornell — his father's name is on one of the libraries",
     techSign: "Sun in unsolicited advice",
     anthem: "\u201cLet Me Make An Intro\u201d (never follows through)",
     lookingFor: ["A founder who needs a cousin in logistics", "Gratitude for the LinkedIn comment"],
@@ -315,7 +315,7 @@ const VCS = [
     distance: "6 km away",
     location: "Every demo day, simultaneously",
     bio: "Invested in 90 companies this year. Cannot name three of them. Deeply believes in 'diversification.'",
-    unit: "Ex-everything, remembers none of it",
+    unit: "Ex-executive in Big Tech, same company for 20 years",
     techSign: "Ascendant: portfolio chaos",
     anthem: "\u201cWhich One Were You Again\u201d",
     lookingFor: ["A logo for the slide", "No expectation of a follow-on"],
@@ -494,8 +494,49 @@ export default function FoundrMatch() {
   const [flyOut, setFlyOut] = useState(null);
   const [match, setMatch] = useState(null);
   const [toast, setToast] = useState(null);
+  const [showRealForm, setShowRealForm] = useState(false);
+  const [realFormSubmitted, setRealFormSubmitted] = useState(false);
+  const [realForm, setRealForm] = useState({
+    name: "",
+    contact: "",
+    building: "",
+    seeking: "cofounder",
+    lookingFor: "",
+  });
   const startX = useRef(0);
   const cardRef = useRef(null);
+
+  const openRealForm = () => {
+    setRealFormSubmitted(false);
+    setRealForm((f) => ({
+      ...f,
+      seeking: "cofounder",
+    }));
+    setShowRealForm(true);
+  };
+
+  const closeRealForm = () => {
+    setShowRealForm(false);
+  };
+
+  const handleRealFormChange = (field) => (e) => {
+    setRealForm((f) => ({ ...f, [field]: e.target.value }));
+  };
+
+  const handleRealFormSubmit = (e) => {
+    e.preventDefault();
+    // TODO(engineer): wire this up to a real endpoint / spreadsheet / CRM.
+    // For now this just confirms submission in the UI.
+    console.log("Lead submitted:", realForm);
+    setRealFormSubmitted(true);
+    setRealForm({
+      name: "",
+      contact: "",
+      building: "",
+      seeking: "cofounder",
+      lookingFor: "",
+    });
+  };
 
   const deck = DECKS[mode];
   const total = deck.length;
@@ -766,6 +807,67 @@ export default function FoundrMatch() {
           border-radius: 10px; max-width: 320px; text-align: center; z-index: 60;
           box-shadow: 0 8px 20px rgba(0,0,0,0.25);
         }
+
+        .fm-real-link {
+          background: none; border: none; cursor: pointer;
+          font-size: 12px; color: var(--muted); text-decoration: underline;
+          text-underline-offset: 3px; font-family: inherit;
+        }
+        .fm-real-link:hover { color: var(--pink); }
+        .fm-real-link.on-overlay {
+          margin-top: 14px; color: rgba(255,255,255,0.85); text-align: center;
+        }
+        .fm-real-link.on-overlay:hover { color: #fff; }
+
+        .fm-footer {
+          text-align: center; padding: 22px 0 10px;
+        }
+
+        .fm-form-overlay { align-items: center; }
+        .fm-form-card {
+          position: relative; width: 100%; max-width: 340px;
+          background: var(--card-bg); color: var(--text);
+          border-radius: 18px; padding: 26px 22px 22px;
+          box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+          max-height: 86vh; overflow-y: auto;
+        }
+        .fm-form-close {
+          position: absolute; top: 12px; right: 14px;
+          background: none; border: none; font-size: 22px;
+          line-height: 1; color: var(--muted); cursor: pointer;
+        }
+        .fm-form-close:hover { color: var(--text); }
+        .fm-form-title {
+          font-size: 18px; font-weight: 700; margin: 0 0 6px; color: var(--text);
+        }
+        .fm-form-sub {
+          font-size: 12.5px; color: var(--muted); margin: 0 0 18px; line-height: 1.5;
+        }
+        .fm-form { display: flex; flex-direction: column; gap: 14px; }
+        .fm-field { display: flex; flex-direction: column; gap: 6px; }
+        .fm-field span {
+          font-size: 11px; font-weight: 600; color: var(--muted);
+          text-transform: uppercase; letter-spacing: 0.4px;
+        }
+        .fm-field input,
+        .fm-field textarea,
+        .fm-field select {
+          font-family: inherit; font-size: 13.5px; color: var(--text);
+          border: 1px solid var(--line); border-radius: 10px;
+          padding: 10px 12px; resize: vertical; outline: none;
+          transition: border-color 150ms ease; background: #fff;
+        }
+        .fm-field input:focus,
+        .fm-field textarea:focus,
+        .fm-field select:focus { border-color: var(--pink); }
+        .fm-form-submit {
+          border: none; border-radius: 12px; padding: 13px;
+          font-size: 14px; font-weight: 700; color: #fff; cursor: pointer;
+          background: linear-gradient(135deg, var(--pink), var(--pink2));
+          margin-top: 4px;
+        }
+        .fm-form-thanks { text-align: center; padding: 10px 0 4px; }
+        .fm-form-thanks .fm-restart { margin-top: 10px; }
       `}</style>
 
       <div className="fm-topbar">
@@ -907,6 +1009,132 @@ export default function FoundrMatch() {
           <p className="fm-match-sub">You and {match.profile.name} have mutual conviction.</p>
           <p className="fm-clause">{match.clause}</p>
           <button className="fm-restart" onClick={(e) => { e.stopPropagation(); setMatch(null); }}>Keep swiping</button>
+          <a
+            className="fm-real-link on-overlay"
+            href="#"
+            onClick={(e) => {
+              e.stopPropagation();
+              e.preventDefault();
+              openRealForm();
+            }}
+          >
+            If you're really looking for {mode === "vcs" ? "an investor" : "a co-founder"} &mdash; click here
+          </a>
+        </div>
+      )}
+
+      <div className="fm-footer">
+        <a
+          className="fm-real-link"
+          href="#"
+          onClick={(e) => {
+            e.preventDefault();
+            openRealForm();
+          }}
+        >
+          If you're really looking for {mode === "vcs" ? "an investor" : "a co-founder"} &mdash; click here
+        </a>
+      </div>
+
+      {showRealForm && (
+        <div className="fm-overlay fm-form-overlay" onClick={closeRealForm}>
+          <div className="fm-form-card" onClick={(e) => e.stopPropagation()}>
+            <button className="fm-form-close" aria-label="Close" onClick={closeRealForm}>
+              &times;
+            </button>
+
+            {!realFormSubmitted ? (
+              <>
+                <p className="fm-form-title">Find a real match</p>
+                <p className="fm-form-sub">
+                  No swiping, no vesting jokes &mdash; just tell us about you.
+                </p>
+                <form className="fm-form" onSubmit={handleRealFormSubmit}>
+                  <label className="fm-field">
+                    <span>Your name</span>
+                    <input
+                      type="text"
+                      required
+                      value={realForm.name}
+                      onChange={handleRealFormChange("name")}
+                      placeholder="Jane Doe"
+                    />
+                  </label>
+
+                  <label className="fm-field">
+                    <span>What are you building?</span>
+                    <textarea
+                      required
+                      rows={3}
+                      value={realForm.building}
+                      onChange={handleRealFormChange("building")}
+                      placeholder="A two-sentence pitch of your idea or company"
+                    />
+                  </label>
+
+                  <label className="fm-field">
+                    <span>Who are you looking for?</span>
+                    <select
+                      value={realForm.seeking}
+                      onChange={handleRealFormChange("seeking")}
+                    >
+                      <option value="cofounder">A co-founder</option>
+                      <option value="investor">An investor</option>
+                      <option value="either">Either</option>
+                    </select>
+                  </label>
+
+                  <label className="fm-field">
+                    <span>
+                      {realForm.seeking === "investor"
+                        ? "What are you looking for in an investor?"
+                        : realForm.seeking === "either"
+                        ? "What are you looking for?"
+                        : "What are you looking for in a co-founder?"}
+                    </span>
+                    <textarea
+                      required
+                      rows={3}
+                      value={realForm.lookingFor}
+                      onChange={handleRealFormChange("lookingFor")}
+                      placeholder={
+                        realForm.seeking === "investor"
+                          ? "Check size, stage, sector focus, how hands-on..."
+                          : realForm.seeking === "either"
+                          ? "Skills, check size, stage, commitment level..."
+                          : "Skills, experience, commitment level, equity expectations..."
+                      }
+                    />
+                  </label>
+
+                  <label className="fm-field">
+                    <span>How can people reach you?</span>
+                    <input
+                      type="text"
+                      required
+                      value={realForm.contact}
+                      onChange={handleRealFormChange("contact")}
+                      placeholder="Email, LinkedIn, or phone"
+                    />
+                  </label>
+
+                  <button type="submit" className="fm-form-submit">
+                    Submit
+                  </button>
+                </form>
+              </>
+            ) : (
+              <div className="fm-form-thanks">
+                <p className="fm-form-title">You're in.</p>
+                <p className="fm-form-sub">
+                  Thanks &mdash; we've got your details. We'll be in touch if there's a match.
+                </p>
+                <button className="fm-restart" onClick={closeRealForm}>
+                  Close
+                </button>
+              </div>
+            )}
+          </div>
         </div>
       )}
 
