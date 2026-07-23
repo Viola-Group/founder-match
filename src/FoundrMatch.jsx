@@ -496,6 +496,8 @@ export default function FoundrMatch() {
   const [toast, setToast] = useState(null);
   const [showRealForm, setShowRealForm] = useState(false);
   const [realFormSubmitted, setRealFormSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState(null);
   const [realForm, setRealForm] = useState({
     name: "",
     contact: "",
@@ -523,19 +525,41 @@ export default function FoundrMatch() {
     setRealForm((f) => ({ ...f, [field]: e.target.value }));
   };
 
-  const handleRealFormSubmit = (e) => {
+  const LEADS_ENDPOINT =
+    "https://script.google.com/macros/s/AKfycbynhGttTiZ8_4VDE-2sEsP7weD2GUYH-EnSJl3FzjwqW-rL71XfXCBpg_hjMDypI9GHhQ/exec";
+
+  const handleRealFormSubmit = async (e) => {
     e.preventDefault();
-    // TODO(engineer): wire this up to a real endpoint / spreadsheet / CRM.
-    // For now this just confirms submission in the UI.
-    console.log("Lead submitted:", realForm);
-    setRealFormSubmitted(true);
-    setRealForm({
-      name: "",
-      contact: "",
-      building: "",
-      seeking: "cofounder",
-      lookingFor: "",
-    });
+    if (submitting) return;
+    setSubmitError(null);
+    setSubmitting(true);
+    try {
+      // URLSearchParams -> Content-Type application/x-www-form-urlencoded, which is
+      // a "simple" CORS request; the browser skips the preflight OPTIONS that
+      // Apps Script would 405 on.
+      const res = await fetch(LEADS_ENDPOINT, {
+        method: "POST",
+        body: new URLSearchParams(realForm),
+      });
+      const json = await res.json();
+      if (!json || !json.ok) throw new Error((json && json.error) || "Server error");
+      setRealFormSubmitted(true);
+      setRealForm({
+        name: "",
+        contact: "",
+        building: "",
+        seeking: "cofounder",
+        lookingFor: "",
+      });
+    } catch (err) {
+      setSubmitError(
+        "Sorry, we couldn't save that. Please try again in a moment (" +
+          (err && err.message ? err.message : String(err)) +
+          ")."
+      );
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   const deck = DECKS[mode];
@@ -1118,8 +1142,27 @@ export default function FoundrMatch() {
                     />
                   </label>
 
-                  <button type="submit" className="fm-form-submit">
-                    Submit
+                  {submitError && (
+                    <p
+                      className="fm-form-error"
+                      style={{
+                        color: "#c62828",
+                        fontSize: "13px",
+                        margin: "0 0 8px",
+                        lineHeight: 1.4,
+                      }}
+                    >
+                      {submitError}
+                    </p>
+                  )}
+
+                  <button
+                    type="submit"
+                    className="fm-form-submit"
+                    disabled={submitting}
+                    style={submitting ? { opacity: 0.6, cursor: "wait" } : undefined}
+                  >
+                    {submitting ? "Sending…" : "Submit"}
                   </button>
                 </form>
               </>
