@@ -1152,7 +1152,7 @@ export default function FoundrMatch() {
       {showIntro && (
         <div className="fm-splash fm-splash-v2" onClick={() => setShowIntro(false)}>
           <div className="fm-splash-copy2">
-            <p className="fm-splash-wordmark">FounderMatch</p>
+            <p className="fm-splash-wordmark">FoundrMatch</p>
             <p className="fm-splash-tagline">Your next partner is only one swipe away</p>
           </div>
 
