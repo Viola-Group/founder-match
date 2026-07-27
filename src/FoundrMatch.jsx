@@ -1027,7 +1027,7 @@ export default function FoundrMatch() {
           font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600;
           color: rgba(255,255,255,0.75); letter-spacing: 1px; text-transform: uppercase;
         }
-        .fm-splash-credit2-logo { width: 34px; height: auto; }
+        .fm-splash-credit2-logo { width: 56px; height: auto; }
         .fm-splash-credit2-brand {
           font-family: 'JetBrains Mono', monospace; font-size: 8px; font-weight: 600;
           color: rgba(255,255,255,0.85); letter-spacing: 0.8px; text-transform: uppercase;
