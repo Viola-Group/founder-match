@@ -981,9 +981,30 @@ export default function FoundrMatch() {
         }
         .fm-splash-heart-badge {
           width: 132px; height: 132px; background: #fff;
-          border-radius: 50% 50% 50% 0;
+          border-radius: 50% 50% 50% 12px;
           display: flex; align-items: center; justify-content: center;
           box-shadow: 0 20px 40px rgba(0,0,0,0.18);
+          animation: fm-splash-floaty 6s ease-in-out infinite;
+        }
+        @keyframes fm-splash-floaty {
+          0%, 100% { transform: translateY(0); }
+          50% { transform: translateY(-7px); }
+        }
+        .fm-splash-heart-glyph {
+          font-size: 64px; line-height: 1;
+          font-family: Arial, sans-serif;
+          background: linear-gradient(150deg, #ff5f8a, #e10e3d);
+          -webkit-background-clip: text; background-clip: text; color: transparent;
+          filter: drop-shadow(0 6px 10px rgba(190,10,60,0.25));
+          animation: fm-splash-beat 2.6s ease-in-out infinite;
+          display: inline-block;
+        }
+        @keyframes fm-splash-beat {
+          0%, 100% { transform: scale(1); }
+          10% { transform: scale(1.09); }
+          20% { transform: scale(1); }
+          30% { transform: scale(1.05); }
+          42% { transform: scale(1); }
         }
         .fm-splash-headline2 {
           margin: 0; color: #fff; font-family: 'Newsreader', serif;
@@ -1157,9 +1178,7 @@ export default function FoundrMatch() {
           </div>
 
           <div className="fm-splash-heart-badge" aria-hidden="true">
-            <svg width="52" height="52" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              <path d="M12 21s-6.7-4.35-9.3-8.1C1 10.4 1.6 7 4.4 5.6c2.1-1.05 4.4-.3 5.6 1.4 1.2-1.7 3.5-2.45 5.6-1.4 2.8 1.4 3.4 4.8 1.7 7.3C18.7 16.65 12 21 12 21z" fill="#e4436b"/>
-            </svg>
+            <span className="fm-splash-heart-glyph">&#9829;</span>
           </div>
 
           <p className="fm-splash-headline2">
