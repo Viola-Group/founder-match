@@ -1027,7 +1027,7 @@ export default function FoundrMatch() {
           font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600;
           color: rgba(255,255,255,0.75); letter-spacing: 1px; text-transform: uppercase;
         }
-        .fm-splash-credit2-logo { width: 18px; height: auto; }
+        .fm-splash-credit2-logo { width: 34px; height: auto; }
         .fm-splash-credit2-brand {
           font-family: 'JetBrains Mono', monospace; font-size: 8px; font-weight: 600;
           color: rgba(255,255,255,0.85); letter-spacing: 0.8px; text-transform: uppercase;
@@ -1152,7 +1152,7 @@ export default function FoundrMatch() {
       {showIntro && (
         <div className="fm-splash fm-splash-v2" onClick={() => setShowIntro(false)}>
           <div className="fm-splash-copy2">
-            <p className="fm-splash-wordmark">FounderMatch</p>
+            <p className="fm-splash-wordmark">FoundrMatch</p>
             <p className="fm-splash-tagline">Your next partner is only one swipe away</p>
           </div>
 
