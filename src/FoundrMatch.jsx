@@ -966,6 +966,73 @@ export default function FoundrMatch() {
         .fm-splash-credit { display: flex; align-items: center; justify-content: center; gap: 8px; }
         .fm-splash-credit-logo { width: 20px; height: auto; }
         .fm-splash-credit-text { font-size: 11px; color: rgba(255,255,255,0.85); font-weight: 500; letter-spacing: 0.3px; }
+
+        @import url('https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,600;1,600&family=JetBrains+Mono:wght@500;700&display=swap');
+        .fm-splash-v2 { gap: 20px; background: linear-gradient(160deg, #ec5a76 0%, #d43a58 55%, #b92c48 100%); }
+        .fm-splash-copy2 { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+        .fm-splash-wordmark {
+          margin: 0; color: #fff; font-family: 'Newsreader', serif;
+          font-size: 40px; font-weight: 600; letter-spacing: -0.3px;
+        }
+        .fm-splash-tagline {
+          margin: 0; color: rgba(255,255,255,0.9);
+          font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 500;
+          letter-spacing: 0.2px; text-align: center;
+        }
+        .fm-splash-heart-badge {
+          width: 132px; height: 132px; background: #fff;
+          border-radius: 50% 50% 50% 0;
+          display: flex; align-items: center; justify-content: center;
+          box-shadow: 0 20px 40px rgba(0,0,0,0.18);
+        }
+        .fm-splash-headline2 {
+          margin: 0; color: #fff; font-family: 'Newsreader', serif;
+          font-size: 26px; font-weight: 500; line-height: 1.4; text-align: center;
+          max-width: 320px;
+        }
+        .fm-splash-headline2 em { font-style: italic; }
+        .fm-splash-hint2 {
+          display: flex; align-items: center; justify-content: center; gap: 14px;
+          width: 220px;
+        }
+        .fm-intro-arrow2 {
+          font-size: 22px; color: rgba(255,255,255,0.85);
+          animation: fm-intro-arrow-pulse 1.6s ease-in-out infinite;
+        }
+        .fm-intro-arrow2.right { animation-delay: 0.3s; }
+        .fm-intro-track {
+          position: relative; flex: 1; height: 2px; background: rgba(255,255,255,0.35);
+          border-radius: 2px; display: inline-block;
+        }
+        .fm-intro-handle {
+          position: absolute; top: 50%; left: 20%; width: 22px; height: 22px;
+          border: 2px solid rgba(255,255,255,0.85); border-radius: 50%;
+          transform: translate(-50%, -50%);
+          animation: fm-intro-handle-slide 1.8s ease-in-out infinite;
+        }
+        @keyframes fm-intro-handle-slide {
+          0%, 100% { left: 20%; }
+          50% { left: 80%; }
+        }
+        .fm-splash-cta {
+          width: 100%; max-width: 300px; border: none; border-radius: 999px;
+          background: #fff; color: #d92d54; font-family: 'JetBrains Mono', monospace;
+          font-size: 13px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase;
+          padding: 16px 0; cursor: pointer; box-shadow: 0 10px 24px rgba(0,0,0,0.18);
+        }
+        .fm-splash-credit2 {
+          display: flex; align-items: center; justify-content: center; gap: 8px;
+        }
+        .fm-splash-credit2-label {
+          font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600;
+          color: rgba(255,255,255,0.75); letter-spacing: 1px; text-transform: uppercase;
+        }
+        .fm-splash-credit2-logo { width: 18px; height: auto; }
+        .fm-splash-credit2-brand {
+          font-family: 'JetBrains Mono', monospace; font-size: 8px; font-weight: 600;
+          color: rgba(255,255,255,0.85); letter-spacing: 0.8px; text-transform: uppercase;
+          line-height: 1.2; text-align: left;
+        }
         .fm-intro-arrow {
           position: absolute; top: 50%; transform: translateY(-50%);
           font-size: 34px; font-weight: 700;
@@ -1083,48 +1150,47 @@ export default function FoundrMatch() {
       `}</style>
 
       {showIntro && (
-        <div className="fm-splash" onClick={() => setShowIntro(false)}>
-          <div className="fm-splash-logo-badge">
-            <span className="fm-splash-brandtext">FoundrMatch</span>
+        <div className="fm-splash fm-splash-v2" onClick={() => setShowIntro(false)}>
+          <div className="fm-splash-copy2">
+            <p className="fm-splash-wordmark">FounderMatch</p>
+            <p className="fm-splash-tagline">Your next partner is only one swipe away</p>
           </div>
 
-          <div className="fm-splash-copy">
-            <p className="fm-splash-headline">
-              Find your next term sheet.
-              <br />
-              Or your next heartbreak.
-              <br />
-              Swipe wisely.
-            </p>
-            <p className="fm-splash-sub">
-              Your next partner is only one swipe away
-            </p>
-          </div>
-
-          <div className="fm-splash-match-icon" aria-hidden="true">
-            <svg width="40" height="26" viewBox="0 0 64 40" xmlns="http://www.w3.org/2000/svg">
-              <circle cx="14" cy="15" r="9" fill="#fff" opacity="0.95"/>
-              <path d="M14 19c-6 0-12 3-12 8v3h24v-3c0-5-6-8-12-8z" fill="#fff" opacity="0.95"/>
-              <circle cx="50" cy="15" r="9" fill="#fff" opacity="0.95"/>
-              <path d="M50 19c-6 0-12 3-12 8v3h24v-3c0-5-6-8-12-8z" fill="#fff" opacity="0.95"/>
-              <path d="M32 11c-3-4-9-4-11.5 0-2.5 4 0.5 8 11.5 16 11-8 14-12 11.5-16-2.5-4-8.5-4-11.5 0z" fill="#ff5a6e"/>
+          <div className="fm-splash-heart-badge" aria-hidden="true">
+            <svg width="52" height="52" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 21s-6.7-4.35-9.3-8.1C1 10.4 1.6 7 4.4 5.6c2.1-1.05 4.4-.3 5.6 1.4 1.2-1.7 3.5-2.45 5.6-1.4 2.8 1.4 3.4 4.8 1.7 7.3C18.7 16.65 12 21 12 21z" fill="#e4436b"/>
             </svg>
           </div>
 
-          <div className="fm-splash-hint">
-            <div className="fm-intro-arrow left">&#8592;</div>
-            <div className="fm-intro-swiper">
-              <div className="fm-intro-hand">&#9758;</div>
-            </div>
-            <div className="fm-intro-arrow right">&#8594;</div>
+          <p className="fm-splash-headline2">
+            Find your next term sheet.
+            <br />
+            Or your next <em>heartbreak</em>.
+            <br />
+            Swipe wisely.
+          </p>
+
+          <div className="fm-splash-hint2">
+            <span className="fm-intro-arrow2 left">&#8592;</span>
+            <span className="fm-intro-track">
+              <span className="fm-intro-handle" />
+            </span>
+            <span className="fm-intro-arrow2 right">&#8594;</span>
           </div>
 
-          <div className="fm-splash-credit">
-            <img className="fm-splash-credit-logo" src={curatedLogo} alt="" />
-            <span className="fm-splash-credit-text">Curated by</span>
-          </div>
+          <button
+            type="button"
+            className="fm-splash-cta"
+            onClick={(e) => { e.stopPropagation(); setShowIntro(false); }}
+          >
+            Start Swiping
+          </button>
 
-          <p className="fm-splash-tap">Tap anywhere to start</p>
+          <div className="fm-splash-credit2">
+            <span className="fm-splash-credit2-label">Curated by</span>
+            <img className="fm-splash-credit2-logo" src={curatedLogo} alt="" />
+            <span className="fm-splash-credit2-brand">Viola<br />Ventures</span>
+          </div>
         </div>
       )}
 
